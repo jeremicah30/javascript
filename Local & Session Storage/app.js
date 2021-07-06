@@ -19,7 +19,10 @@
 
 document.querySelector('form').addEventListener('submit', 
 function(e){
+    const task = document.getElementById('task');
+
+    localStorage.setItem('task', task);
     
-    // e.preventDefault();
+    e.preventDefault();
 })
 
