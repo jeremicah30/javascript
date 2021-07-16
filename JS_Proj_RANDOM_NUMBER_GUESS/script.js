@@ -27,24 +27,32 @@ guessBtn.addEventListener('click',function(){
     }
 
     if (guess === winningNum) {
-        //disable the input 
-        guessInput.disabled = true;
-        //border color 
-        guessInput.style.borderColor = 'green';
-        //set message
-        setMessage(`${winningNum} is the correct number!`, 'green');
+        //other way and much cleaner
+        gameOver(true, `${winningNum} is the correct number!`);
+
+        //one way to say you won
+        // //disable the input 
+        // guessInput.disabled = true;
+        // //border color 
+        // guessInput.style.borderColor = 'green';
+        // //set message
+        // setMessage(`${winningNum} is the correct number!`, 'green');
     } else{
         //wrong number
         guessesLeft -= 1;
 
         if (guessesLeft === 0) {
-        //Game Over
-            //disable the input 
-            guessInput.disabled = true;
-            //border color 
-            guessInput.style.borderColor = 'red';
-            //set message
-            setMessage(`Game Over, You Lost! The correct number was ${winningNum}`, 'red');
+        //other way and much cleaner
+        gameOver(false, `Game Over, You Lost! The correct number was ${winningNum}`);
+
+            //one way to say you lost
+        // //Game Over
+        //     //disable the input 
+        //     guessInput.disabled = true;
+        //     //border color 
+        //     guessInput.style.borderColor = 'red';
+        //     //set message
+        //     setMessage(`Game Over, You Lost! The correct number was ${winningNum}`, 'red');
         } else {
         //Wrong number
             //clear the input
@@ -57,6 +65,22 @@ guessBtn.addEventListener('click',function(){
     }
 
 });
+
+// Game over 
+function gameOver(won, msg) {
+    //color choices
+    let color;
+    won === true ? color = 'green' : color = 'red';
+
+    //disable the input 
+    guessInput.disabled = true;
+    //border color 
+    guessInput.style.borderColor = color;
+    //text color 
+    
+    //set message
+    setMessage(msg);
+}
 
 //set message
 function setMessage(msg, color) {
