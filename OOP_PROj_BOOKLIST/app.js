@@ -63,30 +63,75 @@ class UI{
 
 //Store to localStorage
 class Store {
-    static getBook(){
+    static getBooks(){
+        let books
+        if (localStorage.getItem('books') === null) {
+            books = [];
+        } else {
+            books = JSON.parse(localStorage.getItem('books'));
+        } 
 
+        return books;
     }
 
-    static displayBook(){
-        
+    static displayBooks(){
+        const books = Store.getBooks();
+
+        books.forEach(function(book) {
+            const ui = new UI;
+
+            ui.addBookToList(book);
+        })
     }
 
-    static addBook(){
+    static addBooks(book){
+        const books = Store.getBooks();
 
+        books.push(book);
+
+        localStorage.setItem('books', JSON.stringify(books));
     }
 
-    static removeBook(){
+    static removeBooks(isbn){
+        const books = Store.getBooks();
 
+        books.forEach(function(book, index) {
+           if (book.isbn === isbn) {
+               books.splice(index, 1);
+           }
+           localStorage.setItem('books', JSON.stringify(books));
+        })
     }
 
     
 }
+
+//DOM Load event --for displayling books in ui
+document.addEventListener('DOMContentLoaded', Store.displayBooks);
 
 //Event Listener for add book
 document.getElementById('book-form').addEventListener('submit', function (e) {
     const title = document.getElementById('title').value,
             author = document.getElementById('author').value,
             isbn = document.getElementById('isbn').value;
+
+//Add book to list
+UI.prototype.addBookToList = function(book){
+    const list = document.getElementById('book-list');
+
+    //Create tr element
+    const row = document.createElement('tr');
+
+    //Insert value to columns
+    row.innerHTML = `
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.isbn}</td>
+        <td><a hrer="#" class="delete">X</a></td>
+    `
+
+    list.appendChild(row);
+};
 
 //Show Alert
 UI.prototype.showAlert = function(message, className) {
@@ -121,6 +166,7 @@ UI.prototype.showAlert = function(message, className) {
         if (target.className === 'delete') {
             target.parentElement.parentElement.remove();
         }
+
     };
 
     // console.log(title, author, isbn);
@@ -131,6 +177,8 @@ UI.prototype.showAlert = function(message, className) {
     //Instantiate UI
     const ui = new UI();
 
+
+
     //Validate submit
     if (title === '' || author === '' || isbn === '') {
         ui.showAlert('Please fill in the fields', 'error');
@@ -140,18 +188,20 @@ UI.prototype.showAlert = function(message, className) {
         ui.addBookToList(book);
 
         //Add book to ls
-        Store.addBook(book);
+        Store.addBooks(book);
 
         //Success Alert
         ui.showAlert('Book added successfully', 'success');
 
         //Clear Field
         ui.clearField();
+
     };
 
-
     e.preventDefault();
+
 });
+
 
 //Event Listener for delete a book list
 document.getElementById('book-list').addEventListener('click', function(e){
@@ -159,7 +209,11 @@ document.getElementById('book-list').addEventListener('click', function(e){
     //Instantiate UI
     const ui = new UI();
 
+    //Delete a book
     ui.deleteBook(e.target);
+
+    //remove from localStorage
+    Store.removeBooks(e.target.parentElement.previousElementSibling.textContent);
 
     //Show Alert
     ui.showAlert('Book remove successfully!', 'success');
