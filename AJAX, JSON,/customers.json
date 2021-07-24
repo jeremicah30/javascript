@@ -1,0 +1,22 @@
+[
+    {
+        "id" : 1,
+        "name" : "Maimai",
+        "company" : "My Company",
+        "phone" : "1234-567-8900"
+    }, 
+
+    {
+        "id" : 2,
+        "name" : "Epep",
+        "company" : "Big Company",
+        "phone" : "1234-567-8900"
+    }, 
+
+    {
+        "id" : 3,
+        "name" : "Jonel",
+        "company" : "Hello Company",
+        "phone" : "1234-567-8900"
+    }
+]
