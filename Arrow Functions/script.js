@@ -26,4 +26,4 @@
     const hiThere = (firstName, lastName) => console.log(`Hi There ${firstName} ${lastName}`)
 
 
-hiThere('Efraim', 'Gabuat');
+hiThere('Jonel', 'Salenga');
